@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyMP Panel</title>
+  <meta name="description" content="Fantasy-themed management panel for SkyMP multiplayer server">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Animated ember bg -->
+  <div class="bg-effects">
+    <div class="ember e1"></div><div class="ember e2"></div><div class="ember e3"></div>
+    <div class="ember e4"></div><div class="ember e5"></div><div class="ember e6"></div>
+    <div class="ember e7"></div><div class="ember e8"></div>
+    <div class="rune-overlay"></div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <!-- Dragon head SVG -->
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M32 4 C24 4 16 10 14 18 C12 26 14 32 18 36 L14 44 L22 40 C26 44 30 46 32 46 C34 46 38 44 42 40 L50 44 L46 36 C50 32 52 26 50 18 C48 10 40 4 32 4Z" fill="url(#dragonGrad)" stroke="#c8aa6e" stroke-width="1.5"/>
+          <path d="M24 20 Q28 16 32 20 Q36 16 40 20" stroke="#c8aa6e" stroke-width="1.5" fill="none"/>
+          <circle cx="26" cy="24" r="2.5" fill="#e85d26"/>
+          <circle cx="38" cy="24" r="2.5" fill="#e85d26"/>
+          <path d="M28 30 Q32 34 36 30" stroke="#c8aa6e" stroke-width="1" fill="none"/>
+          <path d="M8 14 Q12 8 18 12" stroke="#c8aa6e" stroke-width="1.2" fill="none"/>
+          <path d="M56 14 Q52 8 46 12" stroke="#c8aa6e" stroke-width="1.2" fill="none"/>
+          <defs><linearGradient id="dragonGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a1f0e"/><stop offset="100%" stop-color="#1a1428"/></linearGradient></defs>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <span class="brand-name">SkyMP <span class="accent">Panel</span></span>
+        <span class="brand-version">Server Panel</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Server</div>
+      <button class="sidebar-tab active" data-tab="dashboard">🏰 <span>Dashboard</span></button>
+      <button class="sidebar-tab" data-tab="players">👥 <span>Players</span></button>
+      <button class="sidebar-tab" data-tab="console">📜 <span>Console</span></button>
+      <button class="sidebar-tab" data-tab="performance">⚡ <span>Performance</span></button>
+
+      <div class="nav-section-label">Advanced</div>
+      <button class="sidebar-tab" data-tab="settings">⚙️ <span>Settings</span></button>
+      <button class="sidebar-tab" data-tab="gamemode">📖 <span>Gamemode</span></button>
+      <button class="sidebar-tab" data-tab="profiles">🗂 <span>Profiles</span></button>
+      <button class="sidebar-tab" data-tab="plugins">⚔ <span>Plugins</span></button>
+
+      <div class="nav-section-label">Data</div>
+      <button class="sidebar-tab" data-tab="backups">🛡 <span>Backups</span></button>
+      <button class="sidebar-tab" data-tab="files">📁 <span>Files</span></button>
+      <button class="sidebar-tab" data-tab="notes">🪶 <span>Notes</span></button>
+
+      <div class="nav-section-label">Logs & Docs</div>
+      <button class="sidebar-tab" data-tab="wiki">📖 <span>Documentation</span></button>
+      <button class="sidebar-tab" data-tab="activity">⏳ <span>History</span></button>
+      <button class="sidebar-tab" data-tab="uptime">📊 <span>Sessions</span></button>
+      <button class="sidebar-tab" data-tab="system">🖥 <span>System Info</span></button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <div class="status-indicator" id="status-dot"></div>
+        <span id="status-text">Stopped</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content" id="main-content">
+
+    <!-- DASHBOARD -->
+    <section class="tab-content active" id="panel-dashboard">
+      <div class="page-header"><h1>Dashboard</h1><span class="header-time" id="header-time"></span></div>
+      <div class="dashboard-grid">
+        <!-- Hero -->
+        <div class="card card-hero"><div class="card-glow"></div>
+          <div class="hero-content">
+            <div class="server-status-display">
+              <div class="status-ring" id="status-ring">
+                <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="ring-bg"/><circle cx="60" cy="60" r="54" class="ring-progress" id="ring-progress"/></svg>
+                <div class="status-icon" id="status-icon"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+              </div>
+              <div class="status-info">
+                <h2 id="server-name-display">My Server</h2>
+                <p class="status-label" id="status-label">Server is offline</p>
+                <div class="uptime-row">
+                  <span class="uptime-display" id="uptime-display">--:--:--</span>
+                  <span class="crash-badge" id="crash-badge" style="display:none">0</span>
+                </div>
+              </div>
+            </div>
+            <div class="control-buttons">
+              <button class="btn btn-start" id="btn-start" onclick="startServer()">⚔ Start</button>
+              <button class="btn btn-stop" id="btn-stop" onclick="stopServer()" disabled>☠ Stop</button>
+              <button class="btn btn-restart" id="btn-restart" onclick="restartServer()" disabled>🔄 Restart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="card-stat-row">
+          <div class="card card-stat"><div class="stat-icon port">🌐</div><div class="stat-info"><span class="stat-label">Port</span><span class="stat-value" id="stat-port">7777</span></div></div>
+          <div class="card card-stat"><div class="stat-icon players">👥</div><div class="stat-info"><span class="stat-label">Players</span><span class="stat-value" id="stat-maxplayers">100</span></div></div>
+          <div class="card card-stat"><div class="stat-icon mode">🛡</div><div class="stat-info"><span class="stat-label">Mode</span><span class="stat-value" id="stat-mode">Offline</span></div></div>
+          <div class="card card-stat"><div class="stat-icon pid">⚙️</div><div class="stat-info"><span class="stat-label">Process ID</span><span class="stat-value" id="stat-pid">—</span></div></div>
+          <div class="card card-stat"><div class="stat-icon world">🌍</div><div class="stat-info"><span class="stat-label">World Data</span><span class="stat-value" id="stat-world">0</span></div></div>
+          <div class="card card-stat"><div class="stat-icon starts">📊</div><div class="stat-info"><span class="stat-label">Starts</span><span class="stat-value" id="stat-starts">0</span></div></div>
+        </div>
+
+        <!-- Connection Info -->
+        <div class="card card-connection">
+          <div class="card-header"><h3>🏴 Connection Info</h3></div>
+          <div class="connection-details">
+            <div class="conn-row"><span>Address</span><span id="conn-address">localhost</span></div>
+            <div class="conn-row"><span>Port</span><span id="conn-port">7777</span></div>
+            <div class="conn-row"><span>Status</span><span id="conn-status" class="conn-offline">Offline</span></div>
+          </div>
+          <button class="btn btn-sm btn-outline" onclick="copyConnectionInfo()" id="btn-copy-conn">📋 Copy Address</button>
+        </div>
+
+        <!-- Resources -->
+        <div class="card card-chart-mini">
+          <div class="card-header"><h3>⚡ Performance</h3><button class="btn-link" onclick="switchTab('performance')">Details →</button></div>
+          <div class="mini-charts">
+            <div class="mini-chart-item"><div class="mini-chart-label">CPU</div><div class="mini-chart-bar"><div class="mini-chart-fill hp-fill" id="mini-cpu-fill"></div></div><div class="mini-chart-value" id="mini-cpu-val">0%</div></div>
+            <div class="mini-chart-item"><div class="mini-chart-label">RAM</div><div class="mini-chart-bar"><div class="mini-chart-fill mp-fill" id="mini-mem-fill"></div></div><div class="mini-chart-value" id="mini-mem-val">0%</div></div>
+            <div class="mini-chart-item"><div class="mini-chart-label">Server</div><div class="mini-chart-bar"><div class="mini-chart-fill sp-fill" id="mini-srv-fill"></div></div><div class="mini-chart-value" id="mini-srv-val">—</div></div>
+          </div>
+        </div>
+
+        <!-- Console Preview -->
+        <div class="card card-console-preview">
+          <div class="card-header"><h3>📜 Server Console</h3><button class="btn-link" onclick="switchTab('console')">Full Console →</button></div>
+          <div class="console-preview-output" id="console-preview"><div class="console-empty">Console is empty...</div></div>
+        </div>
+
+        <!-- Load Order -->
+        <div class="card card-loadorder">
+          <div class="card-header"><h3>📚 Load Order</h3></div>
+          <div class="loadorder-list" id="loadorder-list"><div class="empty-state-sm">Loading...</div></div>
+        </div>
+
+        <!-- Activity -->
+        <div class="card card-activity-feed">
+          <div class="card-header"><h3>⏳ Recent Activity</h3><button class="btn-link" onclick="switchTab('activity')">View All →</button></div>
+          <div class="activity-feed" id="dash-activity-feed"><div class="empty-state-sm">No activity recorded</div></div>
+        </div>
+
+        <!-- Latest Players -->
+        <div class="card card-hero" style="background: var(--bg-card); border-color: var(--border);">
+          <div class="card-header"><h3>👥 Active Players</h3><button class="btn-link" onclick="switchTab('players')">Manager →</button></div>
+          <div class="player-list-mini" id="dash-player-list">
+            <div class="empty-state-sm">No players connected</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYERS -->
+    <section class="tab-content" id="panel-players">
+      <div class="page-header">
+        <h1>Player Management</h1>
+        <div class="header-actions">
+          <input type="text" id="player-search" placeholder="Search players..." class="input-sm" oninput="filterPlayers()">
+          <button class="btn btn-sm btn-outline" onclick="loadPlayers()">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="card players-card full-width">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Join Time</th>
+                <th>Ping</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="player-table-body">
+              <tr><td colspan="5" class="empty-table">No players connected</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONSOLE -->
+    <section class="tab-content" id="panel-console">
+      <div class="page-header">
+        <h1>Console</h1>
+        <div class="header-actions">
+          <input type="text" id="log-filter" placeholder="Filter logs..." class="input-sm">
+          <select id="log-type-filter" class="select-sm"><option value="">All</option><option value="stdout">Output</option><option value="stderr">Warnings</option><option value="system">System</option><option value="command">Commands</option><option value="error">Errors</option></select>
+          <label class="toggle-label"><input type="checkbox" id="autoscroll-toggle" checked><span class="toggle-switch"></span>Auto-scroll</label>
+          <button class="btn btn-sm btn-outline" onclick="exportLogs()">📤 Export</button>
+          <button class="btn btn-sm btn-outline" onclick="clearLogs()">🗑 Clear</button>
+        </div>
+      </div>
+      <div class="console-container">
+        <div class="console-output" id="console-output"><div class="console-empty">No logs to display. Start the server to begin.</div></div>
+        <div class="console-input-bar"><span class="console-prompt">⚔</span><input type="text" id="console-input" placeholder="Execute command..." autocomplete="off"><button class="btn btn-send" onclick="sendCommand()">Send</button></div>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE -->
+    <section class="tab-content" id="panel-performance">
+      <div class="page-header"><h1>Performance Monitor</h1><span class="perf-update-indicator" id="perf-update-dot">● Live</span></div>
+      <div class="perf-grid">
+        <div class="card perf-card"><div class="card-header"><h3>❤️ CPU Usage</h3><span class="perf-current" id="perf-cpu-current">0%</span></div><canvas id="chart-cpu" class="perf-canvas"></canvas></div>
+        <div class="card perf-card"><div class="card-header"><h3>💙 RAM Usage</h3><span class="perf-current" id="perf-mem-current">0%</span></div><canvas id="chart-mem" class="perf-canvas"></canvas></div>
+        <div class="card perf-card full-width"><div class="card-header"><h3>💚 Server Memory</h3><span class="perf-current" id="perf-srv-current">—</span></div><canvas id="chart-srv" class="perf-canvas"></canvas></div>
+        <div class="card perf-stats-card"><h3>🏰 System Stats</h3><div class="perf-stats-grid"><div class="perf-stat-row"><span>CPU Type</span><span id="ps-cpu">—</span></div><div class="perf-stat-row"><span>Cores</span><span id="ps-cores">—</span></div><div class="perf-stat-row"><span>Total Memory</span><span id="ps-ram">—</span></div><div class="perf-stat-row"><span>Free Memory</span><span id="ps-free-ram">—</span></div><div class="perf-stat-row"><span>System Uptime</span><span id="ps-os-uptime">—</span></div><div class="perf-stat-row"><span>Panel Uptime</span><span id="ps-panel-uptime">—</span></div></div></div>
+        <div class="card perf-stats-card"><h3>⚔ Server Stats</h3><div class="perf-stats-grid"><div class="perf-stat-row"><span>Status</span><span id="ss-status">Stopped</span></div><div class="perf-stat-row"><span>Process ID</span><span id="ss-pid">—</span></div><div class="perf-stat-row"><span>Memory</span><span id="ss-mem">—</span></div><div class="perf-stat-row"><span>Uptime</span><span id="ss-uptime">—</span></div><div class="perf-stat-row"><span>Total Starts</span><span id="ss-starts">0</span></div><div class="perf-stat-row"><span>Crashes</span><span id="ss-crashes">0</span></div></div></div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="tab-content" id="panel-settings">
+      <div class="page-header"><h1>Settings</h1><div class="header-actions"><button class="btn btn-sm btn-outline" onclick="toggleRawEditor()" id="btn-toggle-raw">📝 Raw JSON</button></div></div>
+      <!-- Form editor -->
+      <div class="settings-layout" id="settings-form-view">
+        <div class="settings-form" id="settings-form">
+          <div class="form-section"><h3 class="form-section-title">⚔ General</h3>
+            <div class="form-group"><label for="setting-name">Server Name</label><input type="text" id="setting-name" placeholder="My Server"></div>
+            <div class="form-row"><div class="form-group"><label for="setting-port">Port</label><input type="number" id="setting-port" placeholder="7777"></div><div class="form-group"><label for="setting-maxplayers">Max Players</label><input type="number" id="setting-maxplayers" placeholder="100"></div></div></div>
+          <div class="form-section"><h3 class="form-section-title">🛡 Server Mode</h3>
+            <div class="form-row"><div class="form-group"><label>Offline Mode</label><label class="toggle-label large"><input type="checkbox" id="setting-offline"><span class="toggle-switch"></span></label><p class="form-help">Run without master server</p></div><div class="form-group"><label>NPCs Enabled</label><label class="toggle-label large"><input type="checkbox" id="setting-npc"><span class="toggle-switch"></span></label><p class="form-help">Populate the world with NPCs</p></div></div>
+            <div class="form-group"><label for="setting-master">Master Server</label><input type="text" id="setting-master" placeholder="Leave blank for none"></div>
+            <div class="form-group"><label for="setting-datadir">Data Directory</label><input type="text" id="setting-datadir" placeholder="data"></div></div>
+          <div class="form-section"><h3 class="form-section-title">📚 Load Order</h3>
+            <div class="loadorder-editor" id="loadorder-editor"></div>
+            <button class="btn btn-sm btn-outline" onclick="addLoadOrderEntry()">+ Add Entry</button></div>
+          <div class="form-section"><h3 class="form-section-title">🔮 Panel Automation</h3>
+            <div class="form-row"><div class="form-group"><label>Auto-Restart</label><label class="toggle-label large"><input type="checkbox" id="panel-autorestart"><span class="toggle-switch"></span></label><p class="form-help">Auto-restart on crash</p></div><div class="form-group"><label for="panel-maxretries">Max Attempts</label><input type="number" id="panel-maxretries" placeholder="3" min="1" max="10"></div></div>
+            <div class="form-row"><div class="form-group"><label>Scheduled Restart</label><label class="toggle-label large"><input type="checkbox" id="panel-scheduledrestart"><span class="toggle-switch"></span></label><p class="form-help">Periodic restart</p></div><div class="form-group"><label for="panel-restartinterval">Restart Interval (h)</label><input type="number" id="panel-restartinterval" placeholder="6" min="1" max="168"></div></div>
+            <div class="form-row"><div class="form-group"><label>Auto-Backup</label><label class="toggle-label large"><input type="checkbox" id="panel-autobackup"><span class="toggle-switch"></span></label><p class="form-help">Periodic backup</p></div><div class="form-group"><label for="panel-backupinterval">Backup Interval (h)</label><input type="number" id="panel-backupinterval" placeholder="24" min="1" max="720"></div></div>
+            <div class="form-row"><div class="form-group"><label for="panel-backupretention">Retention</label><input type="number" id="panel-backupretention" placeholder="10" min="1" max="100"><p class="form-help">Max backups to keep</p></div><div class="form-group"><label>Resource Alerts</label><label class="toggle-label large"><input type="checkbox" id="panel-alerts-enabled"><span class="toggle-switch"></span></label><p class="form-help">Warn on high usage</p></div></div></div>
+          
+          <div class="form-section"><h3 class="form-section-title">🎨 Atmosphere</h3>
+            <div class="form-group">
+              <label>Interface Theme</label>
+              <div class="theme-selector">
+                <button class="theme-btn active" data-theme="default" onclick="setTheme('default')"><div class="theme-dot ember"></div> Ember</button>
+                <button class="theme-btn" data-theme="frost" onclick="setTheme('frost')"><div class="theme-dot frost"></div> Frost</button>
+                <button class="theme-btn" data-theme="aether" onclick="setTheme('aether')"><div class="theme-dot aether"></div> Aether</button>
+              </div>
+              <p class="form-help">Choose the visual aesthetic of the panel.</p>
+            </div>
+          </div>
+
+          <div class="form-actions"><button class="btn btn-primary" onclick="saveAllSettings()">💾 Save All</button><button class="btn btn-outline" onclick="loadSettings()">↻ Reload</button></div>
+        </div>
+      </div>
+      <!-- Raw JSON editor -->
+      <div class="settings-layout" id="settings-raw-view" style="display:none">
+        <div class="editor-wrapper"><div class="editor-toolbar"><span class="editor-filename">📄 server-settings.json (Raw)</span><div class="editor-actions"><button class="btn btn-sm btn-primary" onclick="saveRawSettings()">💾 Save</button><button class="btn btn-sm btn-outline" onclick="loadRawSettings()">↻ Reload</button></div></div>
+        <div class="editor-area"><div class="line-numbers" id="raw-line-numbers"></div><textarea id="raw-settings-editor" spellcheck="false"></textarea></div></div>
+      </div>
+    </section>
+
+    <!-- GAMEMODE -->
+    <section class="tab-content" id="panel-gamemode">
+      <div class="page-header"><h1>Gamemode</h1><div class="header-actions"><span class="editor-meta" id="editor-meta"></span><button class="btn btn-sm btn-primary" onclick="saveGamemode()">💾 Save</button><button class="btn btn-sm btn-outline" onclick="loadGamemode()">↻ Reload</button></div></div>
+      <div class="editor-wrapper"><div class="editor-toolbar"><span class="editor-filename">📖 gamemode.js</span><div class="editor-info"><span id="editor-lines">Lines: 0</span><span id="editor-size">Size: 0 B</span></div></div>
+      <div class="editor-area"><div class="line-numbers" id="line-numbers"></div><textarea id="gamemode-editor" spellcheck="false" placeholder="// Write your gamemode scripts here...&#10;// This script runs when the server starts.&#10;&#10;// mp.onConnect = (pid) => {&#10;//   console.log('Player connected:', pid);&#10;// };"></textarea></div></div>
+    </section>
+
+    <!-- PROFILES -->
+    <section class="tab-content" id="panel-profiles">
+      <div class="page-header"><h1>Server Profiles</h1><p class="page-subtitle">Save and recall server configurations.</p></div>
+      <div class="profiles-container">
+        <div class="profile-create"><input type="text" id="profile-name-input" placeholder="Profile name..." class="input-md"><button class="btn btn-primary" onclick="createProfile()">📜 Save Current Config</button></div>
+        <div class="profiles-list" id="profiles-list"><div class="empty-state"><div class="empty-icon">📜</div><p>No profiles found</p></div></div>
+      </div>
+    </section>
+
+    <!-- PLUGINS & ADDONS -->
+    <section class="tab-content" id="panel-plugins">
+      <div class="page-header">
+        <div>
+          <h1>⚔ Addons & Launchers</h1>
+          <p class="page-subtitle">Manage server scripts, tools, and client configurations</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-sm btn-outline" onclick="loadPlugins()">↻ Refresh List</button>
+        </div>
+      </div>
+
+      <div class="plugins-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <!-- Left Column: Plugins List & Generator -->
+        <div class="plugins-left-col" style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <!-- Generator -->
+          <div class="card card-hero" style="background: var(--bg-card); border-color: var(--stamina);">
+            <div class="card-header">
+              <h3>🚀 Auto-Connect .bat Generator</h3>
+            </div>
+            <div class="wiki-content" style="padding: 15px; font-size: 0.9rem;">
+              <p>Type your server's IP address below. We'll generate a <strong>Play.bat</strong> file that forces Skyrim to instantly connect to this server at launch. Excellent for skipping menus!</p>
+              <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <input type="text" id="launcher-ip-input" class="input-md" placeholder="e.g. 127.0.0.1 or my-server.com" style="flex: 1;">
+                <button class="btn btn-primary" onclick="downloadLauncher()">Download .bat</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plugin List -->
+          <div class="card">
+            <div class="card-header">
+              <h3>📂 Installed Server Addons</h3>
+            </div>
+            <div class="wiki-content" style="display:flex; align-items:center; gap:12px; font-size: 0.82rem; padding: 10px 15px; background: rgba(255,255,255,0.02);">
+              <span style="font-size:1.5rem;">📜</span>
+              <div>
+                <strong>Scanner:</strong> <code>.js</code> and <code>.pex</code> files in <code>dist/server/data/scripts</code>.
+              </div>
+            </div>
+            <div class="plugins-container" style="padding: 15px;">
+              <div class="plugin-list" id="plugin-list">
+                <div class="empty-state">No plugins detected.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Sample Scripts -->
+        <div class="plugins-right-col card" style="border-color: var(--gold);">
+          <div class="card-header">
+            <h3>📖 Sample Script Gallery</h3>
+          </div>
+          <div style="padding: 15px; font-size: 0.9rem;">
+            <p>Click "Add Script" to inject boilerplate examples directly into your compiled server/client folders. They load automatically on the next launch.</p>
+            <div id="script-gallery-container">
+              <!-- Dynamically rendered by app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BACKUPS -->
+    <section class="tab-content" id="panel-backups">
+      <div class="page-header"><h1>Backups</h1><p class="page-subtitle">Create and restore backups of your server data.</p></div>
+      <div class="backups-container">
+        <div class="backup-create card"><h3>⚒ Create New Backup</h3><div class="backup-form"><div class="form-group"><label for="backup-name-input">Name</label><input type="text" id="backup-name-input" placeholder="Backup name..." class="input-md"></div><div class="backup-options"><label class="checkbox-label"><input type="checkbox" id="backup-inc-settings" checked><span>Settings</span></label><label class="checkbox-label"><input type="checkbox" id="backup-inc-gamemode" checked><span>Gamemode</span></label><label class="checkbox-label"><input type="checkbox" id="backup-inc-world" checked><span>World</span></label></div><button class="btn btn-primary" onclick="createBackup()">🛡 Create Backup</button></div></div>
+        <div class="backups-list" id="backups-list"><div class="empty-state"><div class="empty-icon">🛡</div><p>No backups found</p></div></div>
+      </div>
+    </section>
+
+    <!-- FILES -->
+    <section class="tab-content" id="panel-files">
+      <div class="page-header"><h1>Files</h1></div>
+      <div class="files-grid">
+        <div class="card files-card"><div class="card-header"><h3>🌍 World Data</h3><button class="btn btn-sm btn-danger" onclick="resetWorld()">🗑 Purge</button></div><div class="file-list" id="world-files"><div class="empty-state-sm">Loading...</div></div></div>
+        <div class="card files-card"><div class="card-header"><h3>📜 Papyrus Scripts</h3></div><div class="file-list" id="script-files"><div class="empty-state-sm">Loading...</div></div></div>
+        <div class="card files-card full-width"><div class="card-header"><h3>📁 Server Root</h3></div><div class="file-list" id="server-root-files"><div class="empty-state-sm">Loading...</div></div></div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="tab-content" id="panel-notes">
+      <div class="page-header"><h1>Notes</h1><div class="header-actions"><button class="btn btn-sm btn-primary" onclick="saveNotes()">💾 Save Notes</button></div></div>
+      <div class="notes-container">
+        <div class="notes-list" id="notes-list"></div>
+        <button class="btn btn-outline" onclick="addNote()" id="btn-add-note">🪶 New Entry</button>
+      </div>
+    </section>
+
+    <!-- ACTIVITY -->
+    <section class="tab-content" id="panel-activity">
+      <div class="page-header"><h1>History</h1><div class="header-actions"><button class="btn btn-sm btn-outline" onclick="clearActivity()">🗑 Clear</button></div></div>
+      <div class="activity-container"><div class="activity-list" id="activity-list"><div class="empty-state"><div class="empty-icon">📜</div><p>No history recorded</p></div></div></div>
+    </section>
+
+    <!-- SKYMP HANDBOOK -->
+    <section class="tab-content" id="panel-wiki">
+      <div class="page-header">
+        <div>
+          <h1>📖 SkyMP Documentation</h1>
+          <p class="page-subtitle">The definitive guide to your multiplayer server</p>
+        </div>
+      </div>
+
+      <div class="handbook-layout">
+        <aside class="handbook-sidebar">
+          <h4>Chapters</h4>
+          <button class="handbook-nav-btn active" onclick="switchHandbookChapter('foundations')">📜 1. Setup & Architecture</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('forge')">⚒ 2. Building & Compiling</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('artifacts')">⚔ 3. Addons & Plugins</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('renewal')">🔄 4. Updating the Server</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('maintenance')">🛡 5. Server Maintenance</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('deployment')">🌐 6. Hosting & Deployment</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('trials')">🎮 7. Playtesting & Connection</button>
+          <button class="handbook-nav-btn" onclick="switchHandbookChapter('automation')">🤖 8. Tips & Automation</button>
+          <div style="margin-top:20px; padding:10px; border-top:1px solid var(--border);">
+            <button class="btn btn-sm btn-primary w-100" onclick="switchHandbookChapter('fasttrack')">⚡ Quick Start Guide</button>
+          </div>
+        </aside>
+
+        <main class="handbook-main">
+          <!-- CHAPTER 1: FOUNDATIONS -->
+          <div class="handbook-chapter active" id="hb-foundations">
+            <div class="hb-card">
+              <h2>📜 Chapter I: Setup & Architecture</h2>
+              <p>Skylow Multiplayer (SkyMP) is a complex system that bridges multiple Skyrim instances together. To ensure a stable server, your foundation must be solid.</p>
+              
+              <h3>⚔ The Architecture</h3>
+              <ul>
+                <li><strong>The Client:</strong> A mod that runs inside your Skyrim SE. It handles animations, movement, and menus.</li>
+                <li><strong>The Server:</strong> A standalone program that synchronizes the world state (chests, NPCs, players) for everyone.</li>
+                <li><strong>The Panel:</strong> The interface you are using right now to manage the server process.</li>
+              </ul>
+
+              <h3>⚙️ Essential Requirements</h3>
+              <p>Before you begin, ensure both you and your players have:</p>
+              <ul>
+                <li><strong>Skyrim Special Edition:</strong> Version 1.5.97 is the most tested.</li>
+                <li><strong>SKSE64:</strong> Required for the client to function.</li>
+                <li><strong>Visual Studio 2022:</strong> Required if you intend to build from source code.</li>
+              </ul>
+
+              <div class="alert-box info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-text">
+                  <strong>Tip:</strong> Always run your Skyrim via <code>skse64_loader.exe</code> to ensure mods load correctly.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAPTER 2: THE FORGE -->
+          <div class="handbook-chapter" id="hb-forge">
+            <div class="hb-card">
+              <h2>⚒ Chapter II: Building & Compiling</h2>
+              <p>Building is the process of turning source code into the actual programs you run. In SkyMP, this happens via <strong>CMake</strong> and <strong>Visual Studio</strong>.</p>
+              
+              <h3>🏰 Building the Solution</h3>
+              <ol>
+                <li>Open <code>build/skymp.sln</code> in Visual Studio 2022.</li>
+                <li>Set the configuration to <strong>Release</strong> in the top toolbar.</li>
+                <li>Go to <code>Build -> Build Solution</code>.</li>
+              </ol>
+
+              <h3>📁 Where do the files go?</h3>
+              <p>Once the build processing is finished, your ready-to-use programs appear in <code>build/dist/</code>:</p>
+              <ul>
+                <li><strong>dist/server:</strong> Contains the server scripts and executable.</li>
+                <li><strong>dist/client:</strong> Contains the files you need to copy into your Skyrim folder to play.</li>
+              </ul>
+
+              <div class="alert-box warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-text">
+                  <strong>Important:</strong> If you change C++ code or update the repository, you MUST rebuild to apply changes!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAPTER 3: ARTIFACTS -->
+          <div class="handbook-chapter" id="hb-artifacts">
+            <div class="hb-card">
+              <h2>⚔ Chapter III: Addons & Plugins</h2>
+              <p>Addons extend your server's logic. There are two ways to add them, depending on your workflow.</p>
+              
+              <div class="path-selector">
+                <button class="path-btn active" id="btn-addon-manual" onclick="toggleAddonPath('manual')">Live Tweaks</button>
+                <button class="path-btn" id="btn-addon-source" onclick="toggleAddonPath('source')">Source Addons</button>
+              </div>
+
+              <!-- Manual Content -->
+              <div id="path-addon-manual">
+                <h3>📦 Manual Placement (Post-Build)</h3>
+                <p>Use this if you just want to add a mod or script to your <strong>currently running</strong> server.</p>
+                <ul>
+                  <li><strong>Mods (.esp):</strong> Place in <code>dist/server/data/</code> and add to the Load Order in Settings.</li>
+                  <li><strong>Scripts (.pex):</strong> Place in <code>dist/server/data/scripts/</code>.</li>
+                </ul>
+                <div class="alert-box info">
+                  <span class="alert-icon">📜</span>
+                  <div class="alert-text">These changes are immediate but will be <strong>overwritten</strong> if you delete your <code>dist</code> folder!</div>
+                </div>
+              </div>
+
+              <!-- Source Content -->
+              <div id="path-addon-source" style="display:none">
+                <h3>🏗 Source Placement (Pre-Build)</h3>
+                <p>Use this for permanent additions that you want to be part of every build you make.</p>
+                <ul>
+                  <li><strong>Server Scripts:</strong> Add your source files to <code>skymp5-scripts/</code>.</li>
+                  <li><strong>Client Addons:</strong> Place files in the appropriate <code>skymp5-client</code> subdirectories before building.</li>
+                </ul>
+                <div class="alert-box info">
+                  <span class="alert-icon">⚒</span>
+                  <div class="alert-text">Content here requires a **Rebuild** in Visual Studio to take effect.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAPTER 4: RENEWAL -->
+          <div class="handbook-chapter" id="hb-renewal">
+            <div class="hb-card">
+              <h2>🔄 Chapter IV: Updating the Server</h2>
+              <p>Keeping your server updated ensures you have the latest bug fixes and features.</p>
+
+              <div class="path-selector">
+                <button class="path-btn active" id="btn-update-manual" onclick="toggleUpdatePath('manual')">Manual Path</button>
+                <button class="path-btn" id="btn-update-git" onclick="toggleUpdatePath('git')">Git Path</button>
+              </div>
+
+              <!-- Manual Update -->
+              <div id="path-update-manual">
+                <h3>📦 Manual Update (Simple)</h3>
+                <ol>
+                  <li>Download the latest source code ZIP from GitHub.</li>
+                  <li>Extract it and <strong>replace</strong> your old files (keep your <code>dist/server/world</code> folder if you want to save progress!).</li>
+                  <li>Run the Build process again in Visual Studio.</li>
+                </ol>
+              </div>
+
+              <!-- Git Update -->
+              <div id="path-update-git" style="display:none">
+                <h3>🌿 The Git Path (Recommended)</h3>
+                <p>Use this if you use Git tools (like GitHub Desktop or Command Line).</p>
+                <div class="code-block">git pull origin main
+git submodule update --init --recursive</div>
+                <p>After pulling, open Visual Studio and rebuild the solution.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAPTER 5: MAINTENANCE -->
+          <div class="handbook-chapter" id="hb-maintenance">
+            <div class="hb-card">
+              <h2>🛡 Chapter V: Server Maintenance</h2>
+              <p>A healthy server requires regular upkeep.</p>
+
+              <h3>🧹 World Resets</h3>
+              <p>If you want to clear all player changes (opened doors, looted chests, dropped items), navigate to the <strong>Files</strong> tab and use the <strong>Reset World</strong> button.</p>
+
+              <h3>🛡 Backups</h3>
+              <p>Always create a manual backup before updating your server or changing major settings. Backups are stored in <code>panel-data/backups</code>.</p>
+
+              <h3>📊 Performance History</h3>
+              <p>Check the <strong>Sessions</strong> tab to see how long your server has been running and identify any patterns in crashes.</p>
+            </div>
+          </div>
+
+          <!-- CHAPTER 6: DEPLOYMENT -->
+          <div class="handbook-chapter" id="hb-deployment">
+            <div class="hb-card">
+              <h2>🌐 Chapter VI: Hosting & Deployment</h2>
+              <p>Moving from a local test to a living, breathing online world requires proper networking.</p>
+
+              <h3>🏠 Hosting Strategy</h3>
+              <ul>
+                <li><strong>Local PC:</strong> Great for testing alone or with close friends. Requires your PC to stay on.</li>
+                <li><strong>VPS (Virtual Private Server):</strong> Best for 24/7 Servers. We recommend Ubuntu 22.04 for Linux hosting or a Windows Server instance.</li>
+              </ul>
+
+              <h3>🔓 Networking & Ports</h3>
+              <p>For players to find you, you MUST open these ports in your router or VPS firewall:</p>
+              <ul>
+                <li><strong>7777 (UDP):</strong> The Game Port. Essential for synchronization.</li>
+                <li><strong>3847 (TCP):</strong> The Panel Port. Required to access this interface remotely.</li>
+              </ul>
+
+              <h3>⚙️ Final Settings</h3>
+              <p>Go to the <strong>Settings</strong> tab and ensure:</p>
+              <ol>
+                <li><strong>Server Name:</strong> Set something epic that players will see.</li>
+                <li><strong>IP Address:</strong> Use <code>0.0.0.0</code> to listen on all available connections.</li>
+                <li><strong>Public IP:</strong> Ensure your players have your actual Public IP to connect.</li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- CHAPTER 7: THE TRIALS -->
+          <div class="handbook-chapter" id="hb-trials">
+            <div class="hb-card">
+              <h2>🎮 Chapter VII: Playtesting & Connection</h2>
+              <p>Now that the server is running, it's time to connect.</p>
+
+              <h3>📦 Client Setup</h3>
+              <ol>
+                <li>Inside your build, go to <code>dist/client/Data</code>.</li>
+                <li>Copy all contents inside into your <strong>Skyrim Special Edition/Data</strong> directory.</li>
+                <li>Ensure you have <strong>Skyrim Platform</strong> installed from Nexus Mods.</li>
+              </ol>
+
+              <h3>🔗 In-Game Connection</h3>
+              <ol>
+                <li>Launch Skyrim via <code>skse64_loader.exe</code>. The SkyMP client mod will load automatically.</li>
+                <li>Once at the main menu, press the <strong>[F2]</strong> key on your keyboard to open the Server Browser UI.</li>
+                <li><em>Mouse captured?</em> If you cannot move your mouse to click the UI, press <strong>[F6]</strong> to toggle mouse focus free from the game.</li>
+                <li>Find your server in the <strong>Master Server List</strong> or click <strong>Direct Connect</strong> and enter your server's IP address (use <code>127.0.0.1</code> if hosting locally).</li>
+              </ol>
+              
+              <div class="alert-box info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-text">
+                  <strong>Persistent IP:</strong> SkyMP saves the last IP you correctly connected to internally!
+                </div>
+              </div>
+
+              <h3>👑 Server Administrator Powers</h3>
+              <p>As the Server Administrator, you have control over the server via the <strong>Console</strong> tab:</p>
+              <div class="code-block">say "Greetings, players!"
+kick "PlayerName"
+ban "PlayerName"</div>
+            </div>
+          </div>
+
+          <!-- CHAPTER 8: AUTOMATION -->
+          <div class="handbook-chapter" id="hb-automation">
+            <div class="hb-card">
+              <h2>🤖 Chapter VIII: Tips, Tricks & Automation</h2>
+              <p>Once you are familiar with the standard playtesting loop, you can automate your workflow to join your server faster.</p>
+
+              <h3>🚀 1. The Auto-Connect Fast Load</h3>
+              <p>Because the SkyMP client saves your last joined Server IP to its internal storage, you <strong>do not</strong> need to use the Server Browser every time. Instead, you can bypass the main menu completely to load instantly onto the server!</p>
+              <ul>
+                <li>When the main menu appears, press <code>~</code> to open the developer console.</li>
+                <li>Type <code>coc riverwood</code> and press Enter.</li>
+                <li>You will instantly load into Riverwood and automatically reconnect to your server!</li>
+              </ul>
+
+              <h3>💻 2. The Auto-Launch Batch Script</h3>
+              <p>Create a simple <code>Play.bat</code> file inside your Skyrim directory (next to <code>skse64_loader.exe</code>) to easily launch the game without opening Steam or Mod Organizer manually (useful for rapid development runs):</p>
+              
+              <div class="code-block">@echo off
+echo Launching Skyrim Multiplayer...
+start "" "skse64_loader.exe" -waitfortesting</div>
+
+              <h3>🎭 3. Logging & Debugging in Skyrim</h3>
+              <p>If you are writing custom Papyrus or JavaScript plugins, you can watch your debug prints live by opening the `~` console inside Skyrim. You will see messages like <code>[Script] Hello World</code> appear.</p>
+            </div>
+          </div>
+
+          <!-- FAST TRACK GUIDE -->
+          <div class="handbook-chapter" id="hb-fasttrack">
+            <div class="hb-card" style="border-color: var(--gold);">
+              <h2>⚡ Quick Start Guide</h2>
+              <div class="alert-box info" style="margin-top:0;">
+                <span class="alert-icon">🚀</span>
+                <p>A quick guide for a running server.</p>
+              </div>
+
+              <ol>
+                <li><strong>Build:</strong> Build the solution in <strong>Visual Studio 2022 (Release)</strong>.</li>
+                <li><strong>Client Setup:</strong> Copy <code>dist/client</code> files to your Skyrim Data folder.</li>
+                <li><strong>Run Server:</strong> Run <code>Start Panel.bat</code> and click <strong>Start Server</strong>.</li>
+                <li><strong>Play:</strong> Launch Skyrim via SKSE, press <strong>[F2]</strong>, and join your server.</li>
+              </ol>
+
+              <h3>📝 Checklist</h3>
+              <ul>
+
+                <li>[ ] Skyrim version 1.5.97?</li>
+                <li>[ ] Port 7777 (UDP) Open?</li>
+                <li>[ ] SKSE64 installed?</li>
+                <li>[ ] Skyrim Platform (Nexus) installed?</li>
+              </ul>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <!-- UPTIME HISTORY -->
+    <section class="tab-content" id="panel-uptime">
+      <div class="page-header"><h1>Session History</h1></div>
+      <div class="uptime-container"><div class="uptime-list" id="uptime-list"><div class="empty-state"><div class="empty-icon">📊</div><p>No sessions recorded</p></div></div></div>
+    </section>
+
+    <!-- SYSTEM -->
+    <section class="tab-content" id="panel-system">
+      <div class="page-header"><h1>System Info</h1></div>
+      <div class="system-grid">
+        <div class="card system-card"><h3>🏰 Host</h3><div class="system-rows" id="sys-host"></div></div>
+        <div class="card system-card"><h3>⚒ Hardware</h3><div class="system-rows" id="sys-hw"></div></div>
+        <div class="card system-card"><h3>📁 Paths</h3><div class="system-rows" id="sys-paths"></div></div>
+        <div class="card system-card"><h3>🌐 Network</h3><div class="system-rows" id="sys-network"></div></div>
+        <div class="card system-card"><h3>💾 Storage</h3><div class="system-rows" id="sys-storage"></div></div>
+        <div class="card system-card"><h3>🔧 Runtime</h3><div class="system-rows" id="sys-runtime"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Keyboard overlay -->
+  <div class="keyboard-hint" id="keyboard-hint" style="display:none">
+    <div class="keyboard-hint-content">
+      <h3>⚔ Commands</h3>
+      <div class="shortcut-grid">
+        <div><kbd>1</kbd>-<kbd>9</kbd> Switch tabs</div>
+        <div><kbd>Ctrl+S</kbd> Save</div>
+        <div><kbd>Ctrl+Enter</kbd> Start/Stop</div>
+        <div><kbd>Ctrl+R</kbd> Restart</div>
+        <div><kbd>?</kbd> Show commands</div>
+        <div><kbd>Esc</kbd> Close</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

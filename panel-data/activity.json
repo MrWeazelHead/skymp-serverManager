@@ -1,0 +1,68 @@
+[
+  {
+    "timestamp": "2026-04-14T02:47:37.303Z",
+    "action": "Panel Started",
+    "details": "http://localhost:3847",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-14T03:03:56.780Z",
+    "action": "Panel Started",
+    "details": "http://localhost:3847",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-14T03:12:13.260Z",
+    "action": "Panel Started",
+    "details": "http://localhost:3847",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-14T03:46:48.125Z",
+    "action": "Server Started",
+    "details": "PID: 26244",
+    "type": "success"
+  },
+  {
+    "timestamp": "2026-04-14T03:47:45.889Z",
+    "action": "Server Stop Requested",
+    "details": "",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-14T03:47:49.246Z",
+    "action": "Server Started",
+    "details": "PID: 22728",
+    "type": "success"
+  },
+  {
+    "timestamp": "2026-04-14T03:47:56.488Z",
+    "action": "Server Stop Requested",
+    "details": "",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-14T04:39:04.025Z",
+    "action": "Server Started",
+    "details": "PID: 7640",
+    "type": "success"
+  },
+  {
+    "timestamp": "2026-04-14T04:39:18.832Z",
+    "action": "Server Stop Requested",
+    "details": "",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-16T23:25:26.218Z",
+    "action": "Panel Started",
+    "details": "http://localhost:3847",
+    "type": "info"
+  },
+  {
+    "timestamp": "2026-04-17T00:12:25.257Z",
+    "action": "Panel Started",
+    "details": "http://localhost:3847",
+    "type": "info"
+  }
+]
